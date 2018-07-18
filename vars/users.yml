@@ -1,0 +1,16 @@
+users:
+  - user: 
+    name: "Test User 1"
+    usercode: "test01"
+    email: "test01@example.org"
+    password: "$1$oe6Dtng7$8kxNf46ptDeaDpcJtdOHf1"
+  - user:
+    name: "Test User 2"
+    usercode: "test02"
+    email: "test02@example.org"
+    password: "$1$Cb42YU9o$yzJYJmN.vtuN1w2UToLtG0"
+  - user:
+    name: "Test User 3"
+    usercode: "test03"
+    email: "test03@example.org"
+    password: "$1$n/yTLPMH$yZ2f21SpWO/o//qRZaPIy/"

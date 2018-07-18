@@ -1,0 +1,11 @@
+- name: Create An Azure Resoruce Group
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/azure.yml
+  tasks:
+  - name: Create a resource group
+    azure_rm_resourcegroup:
+      name: "{{ resource_group }}"
+      location: "{{ resoruce_location }}"
+      state: present

@@ -1,0 +1,2 @@
+[GBS_VIRTUAL_LABS]
+vm-gbs-vrituallab ansible_connection=ssh

@@ -1,0 +1,12 @@
+- name: Destroy GBS Virtual Lab
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/azure.yml
+  tasks:
+  - name: Destroy All resources in a resource group
+    azure_rm_resourcegroup:
+      name: "{{ resource_group }}"
+      location: "{{ resoruce_location }}"
+      state: absent
+      force: yes

@@ -1,0 +1,58 @@
+
+- name: Deploy miniconda on the created Virtual Lab
+  hosts: GBS_VIRTUAL_LABS
+  vars:
+    miniconda_prefix: "/opt/miniconda"
+  vars_files:
+    - ../vars/users.yml
+  become: yes
+  roles:
+    - role: ansible-miniconda-role
+      miniconda_python: 3
+      miniconda_version: "latest"
+      miniconda_update_conda: false
+      miniconda_env:
+        name: root
+        channels:
+          - bioconda
+          - conda-forge
+          - defaults
+          - r
+        dependencies:
+          - "tassel=3.0.174"
+          - "mro-base"
+          - "xorg-libice"
+          - "xorg-libsm"
+          - "xorg-libx11"
+          - "xorg-libxt"
+          - "xorg-libxext"
+          - "xorg-libxrender"
+  tasks:
+    - name: Append the bine of Conda's base environment all users' # handy but not recommended by Conda anymore
+      copy:
+        dest: /etc/profile.d/custom-path.sh
+        content: 'PATH={{ miniconda_prefix }}/bin:$PATH'
+    - name: Enable Conda via its recomendated approach
+      file:
+        src: "{{ miniconda_prefix }}/etc/profile.d/conda.sh"
+        dest: /etc/profile.d/conda.sh
+        state: link
+    - name: User account management
+      user:
+        name: "{{ item.usercode }}"
+        comment: "{{ item.name }} "
+        password: "{{ item.password }}"
+        update_password: on_create
+      with_items: "{{ users }}"
+    - name: Install additional packages via yum
+      yum:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - screen
+        - git
+    - name: Deploy KGD from AgResearch's GitHub repo
+      git:
+        repo: 'https://github.com/AgResearch/KGD.git'
+        dest: /opt/KGD
+        version: v0.5.1

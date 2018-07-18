@@ -1,0 +1,8 @@
+# Name and location of a resource group that hosts this virtual lab
+resource_group: "GBS_VirtualLab"
+resoruce_location: "Australia Southeast"
+
+# Name of the VM that hosts this virtual lab and its admin usernmae
+vm_name: "GBS-VirtualLab"
+admin_username: "azureadmin"
+# VM's admin password is set in admin_password in secrets.yml which should be protected by ansible valut

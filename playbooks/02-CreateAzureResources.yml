@@ -1,0 +1,60 @@
+- name: Create GBS Virtual Lab
+  hosts: localhost
+  connection: local
+  vars:
+    admin_username: "azureadmin"
+    vm_name: "GBS-VirtualLab"
+  vars_files:
+    - ../vars/secrets.yml
+    - ../vars/azure.yml
+  tasks:
+  - name: Create virtual network
+    azure_rm_virtualnetwork:
+      resource_group: "{{ resource_group }}"
+      name: vLabVnet
+      address_prefixes: "10.0.0.0/16"
+  - name: Add subnet
+    azure_rm_subnet:
+      resource_group: "{{ resource_group }}"
+      name: vLabSubnet
+      address_prefix: "10.0.1.0/24"
+      virtual_network: vLabVnet
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+      resource_group: "{{ resource_group }}"
+      allocation_method: Static
+      name: vLabPublicIP
+  - name: Create Network Security Group that allows SSH
+    azure_rm_securitygroup:
+      resource_group: "{{ resource_group }}"
+      name: vLabNetworkSecurityGroup
+      rules:
+        - name: SSH
+          protocol: Tcp
+          destination_port_range: 22
+          access: Allow
+          priority: 1001
+          direction: Inbound
+  - name: Create virtual network inteface card
+    azure_rm_networkinterface:
+      resource_group: "{{ resource_group }}"
+      name: vLabNIC
+      virtual_network: vLabVnet
+      subnet: vLabSubnet
+      public_ip_name: vLabPublicIP
+      security_group: vLabNetworkSecurityGroup
+  - name: Create VM
+    azure_rm_virtualmachine:
+      resource_group: "{{ resource_group }}"
+      name: "{{ vm_name }}"
+      vm_size: Standard_D5_v2
+      admin_username: "{{ admin_username }}"
+      admin_password: "{{ admin_password }}"
+      ssh_password_enabled: true
+      network_interfaces: vLabNIC
+      image:
+        offer: CentOS
+        publisher: OpenLogic
+        sku: '7.5'
+        version: latest
+      state: present
