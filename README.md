@@ -9,11 +9,6 @@ These playbooks assumes the localhost, where playbooks are executed:
 * has [MS Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) installed
 * has Ansible installed
 * has Ansible [configured](https://docs.ansible.com/ansible/latest/scenario_guides/guide_azure.html) to use Azure modules
-* the submodule included in the repository is initialised:
-
-    ```
-    $ git submodule update --init --recursive
-    ```
 
 ## Configurations
 
