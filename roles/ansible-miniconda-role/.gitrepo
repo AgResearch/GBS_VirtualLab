@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:uchida/ansible-miniconda-role.git
+	branch = master
+	commit = 5441fe067e86a2ce1cb0291761c11e7c616d6e56
+	parent = ed30875d5dce15b62566e71b1c75d1ffd6a660b0
+	cmdver = 0.3.1
